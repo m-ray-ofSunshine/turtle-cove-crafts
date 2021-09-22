@@ -1,3 +1,5 @@
+import React from 'react';
+
 import bg from "../assets/images/hero-river.jpg"
 
 function Hero() {

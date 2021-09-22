@@ -1,5 +1,6 @@
 
 
 export const getProductData = async (req,res) => {
-    return await fetch("/api/products")
+    return await fetch("/api/products").then(res => res.json())
+    
 };
