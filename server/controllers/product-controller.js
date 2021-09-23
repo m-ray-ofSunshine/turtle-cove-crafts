@@ -17,5 +17,13 @@ module.exports = {
             return res.status(400).json({ message: 'Something is wrong!' });
         }
         res.json({products})
+    },
+    async getSingleProduct( req, res) {
+        var id = req.params.productId
+        const product = await Product.findById(id).then(function (data ) {
+           
+            return data
+        })
+        res.json({product})
     }
 }

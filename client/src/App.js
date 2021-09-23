@@ -1,18 +1,29 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Hero from './components/Hero';
-import Featured from './components/Featured';
+import Home from "./pages/Home";
+import Product from './pages/Product';
+import Custom from './pages/Custom';
+import AllProducts from './pages/AllProducts';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <Hero/>
-      <Featured/>
-      <Footer/>
-    </div>
+    <Router>
+      <>
+        <Header />
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/products' component={AllProducts} />
+          <Route exact path='/products/:productId' component={Product} />
+          <Route exact path='/custom' component={Custom} />
+        </Switch>
+        <Footer />
+      </>
+    </Router>
+
+
   );
 }
 

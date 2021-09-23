@@ -7,7 +7,7 @@ function Header
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="www.google.com">
+                    <a className="navbar-brand" href="/">
                         <img src={turtle} alt="" width="75" style={{marginRight:"2vw"}} className="d-inline-block align-text-top"/>
                         Turtle Cove Crafts
                     </a>
@@ -17,13 +17,13 @@ function Header
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="www.google.com">Home</a>
+                                <a className="nav-link active" aria-current="page" href="/">Home</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="www.google.com">Features</a>
+                                <a className="nav-link" href="/products">Products</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="www.google.com">Pricing</a>
+                                <a className="nav-link" href="/custom">Custom</a>
                             </li>
                         </ul>
                     </div>
