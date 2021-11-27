@@ -1,7 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import bg from "../assets/images/hero-river.jpg"
 
 function Hero() {
 
@@ -11,7 +10,7 @@ function Hero() {
 
     return (
         <div className="px-4 py-5 my-1 text-center" style={{
-            backgroundImage: `url(${bg})`,
+            backgroundImage: `url(/file/hero-river.jpg)`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "cover",

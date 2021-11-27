@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Product from './pages/Product';
 import Custom from './pages/Custom';
 import AllProducts from './pages/AllProducts';
+import Admin from './pages/Admin';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route exact path='/products' component={AllProducts} />
           <Route exact path='/products/:productId' component={Product} />
           <Route exact path='/custom' component={Custom} />
+          <Route exact path='/admin' component={Admin} />
         </Switch>
         <Footer />
       </>
