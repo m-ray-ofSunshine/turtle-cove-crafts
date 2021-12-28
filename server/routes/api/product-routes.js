@@ -1,10 +1,10 @@
 const router = require("express").Router()
-const {createProduct, getAllProducts, getSingleProduct} = require("../../controllers/product-controller")
+const {createProduct, getAllProducts, getSingleProduct,deleteProduct} = require("../../controllers/product-controller")
 const upload = require("../../utils/upload")
 
 
 router.route("/").get(getAllProducts).post(createProduct)
-router.route("/:productId").get(getSingleProduct)
+router.route("/:productId").get(getSingleProduct).delete(deleteProduct)
 
 router.post("/upload", upload.single("file"), async (req, res) => {
     if (req.file === undefined) return res.send("you must select a file.");

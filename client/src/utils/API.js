@@ -18,3 +18,8 @@ export const uploadImage = (file) => {
       body: file,
     });
   };
+  export const deleteSingleProduct = async (id) => {
+    
+    return await fetch(`/api/products/${id}`, {method: "DELETE", body: id}).then(res => res.json())
+    
+};

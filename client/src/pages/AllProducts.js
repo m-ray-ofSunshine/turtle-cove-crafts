@@ -1,11 +1,11 @@
 import React from "react";
-import ProductList from "../components/ProductList";
+import ProductCardList from "../components/ProductCardList";
 
 function AllProducts() {
     return ( 
         <div className="row justify-content-around">
            <h2 className="text-center">Products</h2>
-           <ProductList/>
+           <ProductCardList/>
 
         </div>
      );

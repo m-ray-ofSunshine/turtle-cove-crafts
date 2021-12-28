@@ -15,7 +15,7 @@ function ProductList() {
 
         }
         apiCall()
-    }, [])
+    }, [productData])
 
 
 

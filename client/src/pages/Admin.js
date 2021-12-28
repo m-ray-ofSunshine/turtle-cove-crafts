@@ -1,61 +1,81 @@
-import React,{useState} from "react";
-import {createProduct, uploadImage} from "../utils/API"
+import React, { useState, useEffect } from "react";
+import { createProduct, uploadImage, deleteSingleProduct } from "../utils/API";
+import ProductListing from "../components/ProductListing";
+var mongoose = require("mongoose")
 
 function Admin() {
+  const [formData, setFormData] = useState();
+  const [selectedProduct, setSelectedProduct] = useState();
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
 
-
-    const [formData, setFormData] = useState()
-
-
-    const handleInputChange = (e) => {
-        
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value});
-    };
-
-    const handleImage = (e) => {
-        setFormData({...formData, file: e.target.files[0] , image: e.target.files[0].name })
+  useEffect(() => {
+    if (selectedProduct) {
+      setFormData({ ...selectedProduct.product });
+      setShowDeleteButton(true);
+    } else {
+      setFormData(false);
+      setShowDeleteButton(false);
     }
+  }, [selectedProduct]);
 
-      const handleFormSubmit = async (e) => {
-        e.preventDefault()
-        console.log(formData);
-        try {
-            const res = await createProduct(formData)
-            if (!res.ok) {
-                throw new Error('something went wrong!');
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        try {
-            var data = new FormData()
-            data.append('file', formData.file)
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
+  const handleImage = (e) => {
+    setFormData({
+      ...formData,
+      file: e.target.files[0],
+      image: e.target.files[0].name,
+    });
+  };
 
-            const res = await uploadImage(data)
-            if (!res.ok) {
-                throw new Error('something went wrong!');
-            }
-        } catch (error) {
-            console.log(error);
-        }
+  const deleteProduct = async () => {
+    let id = mongoose.Types.ObjectId(`${selectedProduct.product._id}`) 
+    const res = await deleteSingleProduct(id)
+    if (res) {
+      alert(`${selectedProduct.product.product_name} was deleted!`)
+    } else {
+      alert(`Something went wrong!`)
+    }
+    window.location.reload(false)
+    console.log(res);
+    
+  }
 
-        
+  const handleFormSubmit = async (e) => {
+    //e.preventDefault();
+    
+    try {
+      const res = await createProduct(formData);
+      if (!res.ok) {
+        throw new Error("something went wrong!");
       }
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      var data = new FormData();
+      data.append("file", formData.file);
 
-
+      const res = await uploadImage(data);
+      if (!res.ok) {
+        throw new Error("something went wrong!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <div className="d-flex flex-column">
-      <h3>Admin Page</h3>
-      <form onSubmit={(e) => handleFormSubmit(e)}>
-          {/* Product Name */}
+    <div className="row ">
+      <h3 className="col-12">Admin Page</h3>
+      <form className="col" onSubmit={(e) => handleFormSubmit(e)}>
+        {/* Product Name */}
         <div className="row g-3 align-items-center m-2">
           <div className="col-auto">
-            <label className="col-form-label">
-              Product Name
-            </label>
+            <label className="col-form-label">Product Name</label>
           </div>
           <div className="col-auto">
             <input
@@ -64,6 +84,7 @@ function Admin() {
               name="product_name"
               className="form-control"
               onChange={handleInputChange}
+              value={formData ? formData.product_name : ""}
             />
           </div>
           <div className="col-auto">
@@ -75,9 +96,7 @@ function Admin() {
         {/* Product Decscription */}
         <div className="row g-3 align-items-center m-2">
           <div className="col-auto">
-            <label className="col-form-label">
-              Product Description
-            </label>
+            <label className="col-form-label">Product Description</label>
           </div>
           <div className="col-auto">
             <input
@@ -86,6 +105,7 @@ function Admin() {
               name="product_description"
               className="form-control"
               onChange={handleInputChange}
+              value={formData ? formData.product_description : ""}
             />
           </div>
           <div className="col-auto">
@@ -97,9 +117,7 @@ function Admin() {
         {/* Product Price */}
         <div className="row g-3 align-items-center m-2">
           <div className="col-auto">
-            <label className="col-form-label">
-              Product Price
-            </label>
+            <label className="col-form-label">Product Price</label>
           </div>
           <div className="col-auto">
             <input
@@ -108,6 +126,7 @@ function Admin() {
               name="product_price"
               className="form-control"
               onChange={handleInputChange}
+              value={formData ? formData.product_price : ""}
             />
           </div>
           <div className="col-auto">
@@ -119,9 +138,7 @@ function Admin() {
         {/* Image Upload */}
         <div className="row g-3 align-items-center m-2">
           <div className="col-auto">
-            <label className="col-form-label">
-              Upload an image
-            </label>
+            <label className="col-form-label">Upload an image</label>
           </div>
           <div className="col-auto">
             <input
@@ -138,10 +155,25 @@ function Admin() {
             </span>
           </div>
         </div>
-        
-        <button type="submit" className="m-2">Submit</button>
-        
+
+        <button type="submit" className="m-2 btn-primary">
+          Submit
+        </button>
+        {showDeleteButton && (
+          <button
+            type="button"
+            className="m-2 btn-danger"
+            onClick={deleteProduct}
+          >
+            Delete
+          </button>
+        )}
       </form>
+      <ProductListing
+        setSelectedProduct={setSelectedProduct}
+        selectedProduct={selectedProduct}
+        setFormData={setFormData}
+      />
     </div>
   );
 }
