@@ -18,7 +18,7 @@ function ProductListing(props) {
         apiCall()
     }, [])
 
-    // console.log(productData);
+    
 
     const handleClick = async (e) => {
         e.preventDefault()

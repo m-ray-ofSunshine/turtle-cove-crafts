@@ -23,3 +23,8 @@ export const uploadImage = (file) => {
     return await fetch(`/api/products/${id}`, {method: "DELETE", body: id}).then(res => res.json())
     
 };
+  export const updateSingleProduct = async (id, data) => {
+    
+    return await fetch(`/api/products/${id}`, {method: "PUT", body: data}).then(res => res.json())
+    
+};

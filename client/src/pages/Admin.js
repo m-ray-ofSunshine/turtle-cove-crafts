@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createProduct, uploadImage, deleteSingleProduct } from "../utils/API";
+import { createProduct, uploadImage, deleteSingleProduct, updateSingleProduct } from "../utils/API";
 import ProductListing from "../components/ProductListing";
 var mongoose = require("mongoose")
 
@@ -43,10 +43,21 @@ function Admin() {
     console.log(res);
     
   }
-
-  const handleFormSubmit = async (e) => {
-    //e.preventDefault();
+  const updateProduct = async () => {
+    let id = mongoose.Types.ObjectId(`${selectedProduct.product._id}`) 
+    const res = await updateSingleProduct(id, formData)
+    if (res) {
+      alert(`${selectedProduct.product.product_name} was updated!`)
+    } else {
+      alert(`Something went wrong!`)
+    }
+    window.location.reload(false)
+    console.log(res);
     
+  }
+  
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
     try {
       const res = await createProduct(formData);
       if (!res.ok) {
@@ -58,7 +69,7 @@ function Admin() {
     try {
       var data = new FormData();
       data.append("file", formData.file);
-
+      
       const res = await uploadImage(data);
       if (!res.ok) {
         throw new Error("something went wrong!");
@@ -66,11 +77,12 @@ function Admin() {
     } catch (error) {
       console.log(error);
     }
+    window.location.reload(false)
   };
 
   return (
     <div className="row ">
-      <h3 className="col-12">Admin Page</h3>
+      <h3 style={{textAlign: "center"}} className="col-12" >Admin Page</h3>
       <form className="col" onSubmit={(e) => handleFormSubmit(e)}>
         {/* Product Name */}
         <div className="row g-3 align-items-center m-2">
@@ -88,7 +100,7 @@ function Admin() {
             />
           </div>
           <div className="col-auto">
-            <span id="passwordHelpInline" className="form-text">
+            <span className="form-text">
               Must be 8-20 characters long.
             </span>
           </div>
@@ -99,7 +111,8 @@ function Admin() {
             <label className="col-form-label">Product Description</label>
           </div>
           <div className="col-auto">
-            <input
+            <textarea
+              style={{width: "200px", height: "20vh"}}
               type="text"
               id="product_description"
               name="product_description"
@@ -109,7 +122,7 @@ function Admin() {
             />
           </div>
           <div className="col-auto">
-            <span id="passwordHelpInline" className="form-text">
+            <span className="form-text">
               Must be 8-20 characters long.
             </span>
           </div>
@@ -130,7 +143,7 @@ function Admin() {
             />
           </div>
           <div className="col-auto">
-            <span id="passwordHelpInline" className="form-text">
+            <span className="form-text">
               Must be 8-20 characters long.
             </span>
           </div>
@@ -155,11 +168,21 @@ function Admin() {
             </span>
           </div>
         </div>
-
-        <button type="submit" className="m-2 btn-primary">
-          Submit
+        {!showDeleteButton && (
+          <button type="submit" className="m-2 btn-primary">
+          Create
         </button>
+        )}
+        
         {showDeleteButton && (
+          <>
+          <button 
+          type="button" 
+          className="m-2 btn-primary"
+          onClick={updateProduct}
+          >
+          Update
+        </button>
           <button
             type="button"
             className="m-2 btn-danger"
@@ -167,6 +190,8 @@ function Admin() {
           >
             Delete
           </button>
+          </>
+          
         )}
       </form>
       <ProductListing

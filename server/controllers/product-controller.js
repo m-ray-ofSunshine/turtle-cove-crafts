@@ -2,7 +2,7 @@ const Product = require("../models/Product")
 
 module.exports = {
     async createProduct({body}, res) {
-        console.log(body);
+        //console.log(body);
 
         const product = await Product.create(body)
 
@@ -30,6 +30,15 @@ module.exports = {
         var id = req.params.productId
         const product = await Product.deleteOne({_id: id})
     
+        if(!product) {
+            return res.status(400).json({ message: 'Something is wrong!' });
+        }
+        res.json("success")
+    },
+    async updateProduct(req, res) {
+        var id = req.params.productId
+        const product = await Product.findOneAndUpdate({_id: id},{body: req.body})
+        console.log(product);
         if(!product) {
             return res.status(400).json({ message: 'Something is wrong!' });
         }
