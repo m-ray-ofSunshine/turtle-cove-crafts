@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getSingleProductData} from "../components/utils/API"
+import { getSingleProductData} from "../utils/API"
 
 
 function Product() {

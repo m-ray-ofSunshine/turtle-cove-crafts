@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
-const jobSchema = require("./Product")
+
 
 const userSchema = new Schema(
   {
@@ -18,14 +18,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    location: {
-        type: String,
-    },
-    education: {
-        type: String,
-    },
-    desPoz: {
-        type: String
+    adminAccess: {
+      type: Boolean,
     }
     }
     

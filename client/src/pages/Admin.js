@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { createProduct, uploadImage, deleteSingleProduct, updateSingleProduct } from "../utils/API";
 import ProductListing from "../components/ProductListing";
 var mongoose = require("mongoose")
@@ -7,6 +7,12 @@ function Admin() {
   const [formData, setFormData] = useState();
   const [selectedProduct, setSelectedProduct] = useState();
   const [showDeleteButton, setShowDeleteButton] = useState(false);
+
+  //const user = useContext(UserContext)
+
+  //if (user) {
+  //  console.log(user);
+  //}
 
   useEffect(() => {
     if (selectedProduct) {
@@ -46,13 +52,14 @@ function Admin() {
   const updateProduct = async () => {
     let id = mongoose.Types.ObjectId(`${selectedProduct.product._id}`) 
     const res = await updateSingleProduct(id, formData)
+    
+
     if (res) {
       alert(`${selectedProduct.product.product_name} was updated!`)
     } else {
       alert(`Something went wrong!`)
     }
     window.location.reload(false)
-    console.log(res);
     
   }
   
@@ -162,6 +169,12 @@ function Admin() {
               onChange={handleImage}
             />
           </div>
+          {showDeleteButton && (
+            <div>
+              <p>Current image:</p>
+              <img src={`/file/${selectedProduct.product.image}`} alt="..." style={{width: "20vw"}}/>
+            </div>
+          )}
           <div className="col-auto">
             <span id="passwordHelpInline" className="form-text">
               Must be 8-20 characters long.
@@ -198,6 +211,7 @@ function Admin() {
         setSelectedProduct={setSelectedProduct}
         selectedProduct={selectedProduct}
         setFormData={setFormData}
+        setShowDeleteButton={setShowDeleteButton}
       />
     </div>
   );

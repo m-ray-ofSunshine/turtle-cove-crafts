@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { getProductData, getSingleProductData } from "./utils/API"
+import { getProductData, getSingleProductData } from "../utils/API"
 
 function ProductListing(props) {
 
@@ -28,6 +28,7 @@ function ProductListing(props) {
     }
     const clearData =() => {
         props.setSelectedProduct(false)
+        props.setShowDeleteButton(false)
     }
     const generateButtons = () => {
         if (productData) {

@@ -1,8 +1,16 @@
 import React from 'react';
+import Auth from '../utils/Auth'
 
 import turtle from "../assets/images/sea-turtle-colored-cropped.svg"
-function Header
-    () {
+function Header() {
+
+    const logOut = () => {
+        localStorage.removeItem("id_token")
+        window.location.reload()
+    }
+
+
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,6 +33,16 @@ function Header
                             <li className="nav-item">
                                 <a className="nav-link" href="/custom">Custom</a>
                             </li>
+                            { Auth.loggedIn() && (
+                                <li className="nav-item">
+                                <a className="nav-link" href="/profile">My Profile</a>
+                            </li>
+                            )}
+                            { Auth.loggedIn() ? <li className="nav-item">
+                                <a className="nav-link" href="/" onClick={logOut}>Logout</a>
+                            </li> : <li className="nav-item">
+                                <a className="nav-link" href="/login">Login</a>
+                            </li>}
                         </ul>
                     </div>
                 </div>

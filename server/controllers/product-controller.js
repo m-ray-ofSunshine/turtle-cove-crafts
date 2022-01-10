@@ -37,8 +37,7 @@ module.exports = {
     },
     async updateProduct(req, res) {
         var id = req.params.productId
-        const product = await Product.findOneAndUpdate({_id: id},{body: req.body})
-        console.log(product);
+        const product = await Product.findOneAndUpdate({_id: id},{...req.body})
         if(!product) {
             return res.status(400).json({ message: 'Something is wrong!' });
         }
